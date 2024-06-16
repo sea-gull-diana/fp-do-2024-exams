@@ -55,7 +55,7 @@ curl http://localhost:8080/hello?name=World
 Build a simple http client using ZIO.
 
 ```bash
-sbt runMain zio.HttpClient
+sbt runMain doit.ZIOHttpClient
 
 ```
 
