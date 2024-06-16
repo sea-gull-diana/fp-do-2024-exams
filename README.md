@@ -7,7 +7,7 @@
 Say hello, build a simple hello world application.
 
 ```bash
-sbt runMain do.HelloWorld
+sbt runMain doit.HelloWorld
 
 ```
 
@@ -23,7 +23,7 @@ Should output: "Hello World"
 Build a simple hello world application using ZIO.
 
 ```bash
-sbt runMain do.ZIOHelloWorld
+sbt runMain doit.ZIOHelloWorld
 
 ```
 
@@ -35,15 +35,18 @@ Should output: "Hello World"
 
 Build a simple http server using ZIO.
 
+* lib dependencies
+  * libraryDependencies += "dev.zio" %% "zio-http" % "3.0.0-RC8"
+
 ```bash
-sbt runMain zio.HttpServer
+sbt runMain doit.ZIOHttpServer
 
 ```
 
-Should start a server on port 8080 that returns "Hello World" on every request.
+Should start a server on port 8080 that returns "Hello $name" on every request.
 
 ```bash
-curl http://localhost:8080/wtf
+curl http://localhost:8080/hello?name=World
 ```
 
 
