@@ -65,9 +65,12 @@ Should output: "Hello World"
 ### Tapir 
 
 * Tapir dependencies
-  * "com.softwaremill.sttp.tapir" %% "tapir-zio" % "0.17.0"
-  * "com.softwaremill.sttp.tapir" %% "tapir-core" % "0.17.0"
-  * "com.softwaremill.sttp.tapir" %% "tapir-http4s-server" % "0.17.0"
+  * "com.softwaremill.sttp.tapir" %% "tapir-zio" % "1.10.9"
+  * "com.softwaremill.sttp.tapir" %% "tapir-json-zio" % "1.10.9"
+  * "com.softwaremill.sttp.tapir" %% "tapir-zio" % "1.10.9"
+  * "com.softwaremill.sttp.tapir" %% "tapir-zio-http-server" % "1.10.9"
+  * "com.softwaremill.sttp.tapir" %% "tapir-swagger-ui-bundle" % "1.10.9"
+
 
 
 Build a simple http server using Tapir.
