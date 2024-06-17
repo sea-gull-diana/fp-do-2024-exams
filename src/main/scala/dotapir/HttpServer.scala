@@ -10,6 +10,10 @@ import sttp.tapir.swagger.bundle.SwaggerInterpreter
 import sttp.tapir.server.interceptor.cors.CORSInterceptor
 
 import dotapir.server.HttpApi
+import dotapir.services.FlywayService
+import dotapir.services.FlywayServiceLive
+import dotapir.repository.UserRepositoryLive
+import dotapir.repository.Repository
 
 object HttpServer extends ZIOAppDefault {
 
@@ -25,6 +29,16 @@ object HttpServer extends ZIOAppDefault {
       )
       .options
 
+  private val runMigrations = for {
+    flyway <- ZIO.service[FlywayService]
+    _ <- flyway
+      .runMigrations()
+      .catchSome { case e =>
+        ZIO.logError(s"Error running migrations: ${e.getMessage()}")
+          *> flyway.runRepair() *> flyway.runMigrations()
+      }
+  } yield ()
+
   private val serrverProgram =
     for {
       _ <- ZIO.succeed(println("Hello world"))
@@ -37,10 +51,19 @@ object HttpServer extends ZIOAppDefault {
       )
     } yield ()
 
+  private val program =
+    for {
+      _ <- runMigrations
+      _ <- serrverProgram
+    } yield ()
+
   override def run =
-    serrverProgram
+    program
       .provide(
-        Server.default
-          // Service layers
+        Server.default,
+        // Service layers
+        FlywayServiceLive.configuredLayer,
+        UserRepositoryLive.layer,
+        Repository.dataLayer
       )
 }

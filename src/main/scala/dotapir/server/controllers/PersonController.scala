@@ -8,13 +8,14 @@ import dotapir.http.endpoints.PersonEndpoints
 import dotapir.model.User
 import java.time.LocalDateTime
 import java.time.ZonedDateTime
+import dotapir.repository.UserRepository
 
-class PersonController extends BaseController {
+class PersonController(userRepository: UserRepository) extends BaseController {
 
   val create: ServerEndpoint[Any, Task] = PersonEndpoints.createEndpoint
     .zServerLogic { case (person) =>
-      ZIO.succeed(
-        User(person.name, person.age, person.pet, ZonedDateTime.now())
+      userRepository.create(
+        User(-1, person.name, person.age, person.email, ZonedDateTime.now())
       )
     }
 
@@ -23,6 +24,8 @@ class PersonController extends BaseController {
 }
 
 object PersonController {
-  def makeZIO: UIO[PersonController] =
-    ZIO.succeed(new PersonController())
+  def makeZIO =
+    ZIO
+      .service[UserRepository]
+      .map(new PersonController(_))
 }

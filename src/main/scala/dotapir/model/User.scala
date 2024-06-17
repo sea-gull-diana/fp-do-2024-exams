@@ -5,10 +5,11 @@ import sttp.tapir.Schema
 import java.time.ZonedDateTime
 
 case class User(
+    id: Long,
     name: String,
     age: Int,
-    pet: Either[Cat, Dog],
-    creationDate: ZonedDateTime
+    email: String,
+    created: ZonedDateTime
 //  length: Option[Int] = None
 ) derives JsonCodec,
       Schema

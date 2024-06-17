@@ -6,7 +6,6 @@ import sttp.tapir.Schema
 case class Person(
     name: String,
     age: Int,
-    pet: Either[Cat, Dog]
-    // ,length: Option[Int] = None
+    email: String
 ) derives JsonCodec,
       Schema
